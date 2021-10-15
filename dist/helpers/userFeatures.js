@@ -1,0 +1,57 @@
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }//Importando o JWT
+//Importando o nodemailer
+//Importando o arquivo do smtp
+var _jsonwebtoken = require('jsonwebtoken'); var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+var _nodemailer = require('nodemailer'); var _nodemailer2 = _interopRequireDefault(_nodemailer);
+var _smtpjs = require('./smtp.js');
+
+//Instanciando uma classe do nodemailer
+const transport = _nodemailer2.default.createTransport(_smtpjs.config);
+
+//Função para gerar uma senha aleatória
+function generatedPassword(){
+   //Math.random - pega números aleatórios entre 0 e 1
+   //36 é a porta que coloca letras entre os números
+   //substring pega a partir do número do caractere entre os ()
+   const key = (Math.random() + 1).toString(36).substring(2);
+
+   //replace substitui um caractere por outro, apenas uma vez
+   const newPassword = key.replace('n', '@')
+                          .replace('w', '!')
+                          .replace('i', '#')
+                          .replace('t', '$')
+                          .replace('a', '*');
+   
+   return newPassword;
+}
+
+//Função para gerar o Token de Autenticação
+function generatedToken(id_login, usuario){
+   //Chave secreta de deprictografar o Token
+   const secret = '$dinheiro$';
+
+   //expiresIn é o tempo que o Token leva para expirar, em segundos
+   return _jsonwebtoken2.default.sign({infoUser: {id_login, usuario}}, secret, {expiresIn: 60 * 60 * 5});
+}
+
+//Função para envio de e-mail
+function sendEmail(email, name, password){
+   transport.sendMail({
+      subject: 'Redefinição de senha - Eteclinic',
+      from: 'Suporte Eteclinic <eteclinic@gmail.com>',
+      to: email,
+      html:
+         `
+         <html>
+            <body>
+               <p>Olá, ${name}! Tudo bem?</p>
+               <p>Você solicitou uma redefinição de senha para acessar o site Eteclinic.</p>
+               <p>Sua nova senha de acesso é: <strong>${password}</strong></p>
+            </body>
+         </html>
+         `
+   });
+}
+
+//Exportando a função
+exports.generatedPassword = generatedPassword; exports.generatedToken = generatedToken; exports.sendEmail = sendEmail;
