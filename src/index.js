@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/', routes);
 
 //Variável de ambiente que verifica se existe o primeiro valor, se não existir ele pega o 3000;
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3333;
 
 //Startando o servidor
 app.listen(PORT, () => {
