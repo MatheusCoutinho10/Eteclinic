@@ -30,7 +30,7 @@ router.post('/', [
     return true;
   }),
   body('registerSpecialist').isNumeric().withMessage('O campo Registro deve ser numérico!'),
-  body('registerSpecialist').isLength({max: 45}).withMessage('O campo Registro deve conter no máximo 45 caracteres!'),
+  body('registerSpecialist').isLength({min: 1, max: 11}).withMessage('O campo Registro deve conter entre 1 e 11 caracteres!'),
   body('registerSpecialist').notEmpty().withMessage('O campo Registro é obrigatório!'),
   body('nameSpecialist').notEmpty().withMessage('O campo Nome é obrigatório!'),
   body('nameSpecialist').isLength({max: 45}).withMessage('O campo Nome deve conter no máximo 45 caracteres!'),
@@ -43,7 +43,7 @@ router.post('/', [
   body('emailSpecialist').isEmail().withMessage('Informe um e-mail valido!'),
   body('emailSpecialist').notEmpty().withMessage('O campo E-mail é obrigatório!'),
   body('idProfission').isNumeric().withMessage('O campo Profissão deve ser numérico!'),
-  body('idProfission').isLength({max: 11}).withMessage('O campo Profissão deve conter no máximo 45 caracteres!'),
+  body('idProfission').isLength({min: 1, max: 11}).withMessage('O campo Profissão deve conter entre 1 e 11 caracteres!'),
   body('idProfission').notEmpty().withMessage('O campo Profissão é obrigatório!'),
 ], async (req, res) => {
    //Variável para mandar para a validação a requisição
@@ -63,19 +63,19 @@ router.post('/', [
     }
 });
 
-//Atualizando Clientes
-//router.put('/update', async (req, res) => {
-//   //Para atualizar informe e-mail, senha, nome de usuário e id
-//   const {cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, address, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, client} = req.body;
-//
-//   //Pega no arquivo DB a função updateClient e passando o que vem do FrontEnd para ela
-//   try {
-//      await db.updateClient(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, address, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, client);  
-//      res.status(201).send({message: 'Usuario atualizado com sucesso!'});
-//    } catch(err) {
-//      res.status(500).send({message: `Houve um erro ao atualizar o usuário! ${err}`})
-//    }
-// });
+//Atualizando Especialistas
+router.put('/update', async (req, res) => {
+  //Para atualizar informe os dados
+  const {cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfission, idSpecialist} = req.body;
+
+  //Pega no arquivo DB a função updateSpecialist e passando o que vem do FrontEnd para ela
+  try {
+     await db.updateSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfission, idSpecialist);  
+     res.status(201).send({message: 'Especialista atualizado com sucesso!'});
+   } catch(err) {
+     res.status(500).send({message: `Houve um erro ao atualizar o especialista! ${err}`})
+   }
+});
 
 //Exportando o router
 export default router;

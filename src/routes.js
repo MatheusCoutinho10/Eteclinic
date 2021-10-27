@@ -24,7 +24,6 @@ router.use('client/delete', client);
 
 //Rotas de Especialista
 router.use('/specialist', specialist);
-//router.use('/specialist/update', specialist);
 
 //Rota para Upload de imagens
 router.use('/image', image);

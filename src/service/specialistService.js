@@ -1,7 +1,7 @@
 //Importando o arquivo de conexão com o Banco de Dados
 import database from '../repository/connectionDB.js';
 
-//Função para inserção de clientes
+//Função para inserção de especialistas
 async function insertSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfission){
 	//Instanciando a função
 	const conn = await database.connect();
@@ -13,29 +13,29 @@ async function insertSpecialist(cepAddress, roadAddress, numberAddress, district
 	const newSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfission];
 
 	//Executando a query(concatenando)
-	conn.query(sql, newSpecialistData);
+	await conn.query(sql, newSpecialistData);
+
+	//Encerrando a conexão com o Banco de Dados
+	conn.end();
+}
+
+//Função para atualização de especialistas
+async function updateSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfission, idSpecialist){
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'CALL sp_atualiza_especialista(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+	
+	//Array com os parâmetros para serem inseridos na ordem correta
+	const updateSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfission, idSpecialist];
+
+	//Executando a query(concatenando)
+	conn.query(sql, updateSpecialistData);
 
 	//Encerrando a conexão
 	conn.end();
 }
 
-//Função para atualização de usuários
-//async function updateClient(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, address, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, client){
-//	//Instanciando a função
-//	const conn = await database.connect();
-//
-//	//Ação a ser realizada no banco
-//	const sql = 'CALL sp_atualiza_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-//	
-//	//Array com os parâmetros para serem inseridos na ordem correta
-//	const updateClientData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, address, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, client];
-
-//	//Executando a query(concatenando)
-//	conn.query(sql, updateClientData);
-
-//	//Encerrando a conexão
-//	conn.end();
-//}
-
 //Exportando com chaves por se tratar de uma função direta
-export default {insertSpecialist};
+export default {insertSpecialist, updateSpecialist};
