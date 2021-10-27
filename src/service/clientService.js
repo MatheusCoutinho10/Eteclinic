@@ -37,5 +37,23 @@ async function updateClient(cepAddress, roadAddress, numberAddress, districtAddr
 	conn.end();
 }
 
+//Função para exclusão de usuários
+async function deleteClient(id){
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'UPDATE tbl_clientes SET cliente_deletado = 1 WHERE id_cliente = ?;';
+	
+	//Array com os parâmetros para serem inseridos na ordem correta
+	const deleteClientData = [id];
+
+	//Executando a query(concatenando)
+	conn.query(sql, deleteClientData);
+
+	//Encerrando a conexão
+	conn.end();
+}
+
 //Exportando com chaves por se tratar de uma função direta
-export default {insertClient, updateClient};
+export default {insertClient, updateClient, deleteClient};

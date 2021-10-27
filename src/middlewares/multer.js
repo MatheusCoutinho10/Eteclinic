@@ -18,6 +18,6 @@ const multerConfig = {
          cb(null, fileName); //CallBack(Tratamento do erro, nomeDoArquivo)
       }
    })
-};
+}
 
 export default multerConfig;

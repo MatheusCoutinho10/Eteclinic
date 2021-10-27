@@ -20,6 +20,7 @@ router.use('/login', login);
 //Rotas de Cliente
 router.use('/client', client);
 router.use('/client/update', client);
+router.use('client/delete', client);
 
 //Rotas de Especialista
 router.use('/specialist', specialist);
