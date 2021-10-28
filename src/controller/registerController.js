@@ -43,7 +43,7 @@ router.post('/', [
       await db.insertUser(emailUser, passwordUser, nameUser);  
       res.status(201).send({message: 'Usuário cadastrado com sucesso!'});
     } catch(err) {
-      res.status(500).send({message: `Houve um erro ao cadastrar. ${err}`})
+      res.status(500).send({message: `Houve um erro ao tentar cadastrar o usuário! ${err}`})
     }
 });
 
@@ -75,7 +75,7 @@ router.put('/update', [
      await db.updateUser(emailUser, passwordUser, nameUser, idUser);  
      res.status(201).send({message: 'Usuário atualizado com sucesso!'});
    }catch(err) {
-     res.status(500).send({message: `Houve um erro ao atualizar o usuário! ${err}`})
+     res.status(500).send({message: `Houve um erro ao tentar atualizar o usuário! ${err}`})
    }
 });
 
@@ -88,7 +88,7 @@ router.delete('/delete/:idUser', async (req, res) => {
     await db.deleteUser(idUser);
     res.status(201).send({message: 'Usuário deletado com sucesso!'});
   } catch(err) {
-    res.status(500).send({message: `Houve um erro ao deletar o usuário! ${err}`})
+    res.status(500).send({message: `Houve um erro ao tentar deletar o usuário! ${err}`})
   }
 });
 

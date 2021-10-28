@@ -24,7 +24,7 @@ router.post('/', [
       await db.insertProfession(req.body);
       res.status(201).send({message: 'Profissão cadastrada com sucesso!'});
    }catch(err) {
-      res.status(500).send({message: `Houve um erro ao cadastrar. ${err}`})
+      res.status(500).send({message: `Houve um erro ao tentar cadastrar a profissão! ${err}`})
    }
 });
 
@@ -53,7 +53,7 @@ router.put('/update', [
       await db.updateProfession(nameProfession, idProfession);  
       res.status(201).send({message: 'Profissão atualizada com sucesso!'});
     } catch(err) {
-      res.status(500).send({message: `Houve um erro ao atualizar a profissão! ${err}`})
+      res.status(500).send({message: `Houve um erro ao tentar atualizar a profissão! ${err}`})
     }
  });
 
@@ -66,7 +66,7 @@ router.delete('/delete/:idProfession', async (req, res) => {
      await db.deleteProfession(idProfession);  
      res.status(201).send({message: 'Profissão deletada com sucesso!'});
    }catch(err) {
-     res.status(500).send({message: `Houve um erro ao deletar a profissão! ${err}`})
+     res.status(500).send({message: `Houve um erro ao tentar deletar a profissão! ${err}`})
    }
  });
 
