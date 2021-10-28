@@ -9,10 +9,10 @@ const router = express.Router();
 
 //Login
 router.post('/', async (req, res) => {
-	const {userEmail, password} = req.body;
+	const {emailUser, passwordUser} = req.body;
 	
 	try{
-		const userFind = await db.login(userEmail, password);
+		const userFind = await db.login(emailUser, passwordUser);
 
 		//Fazendo a verificação
 		if(userFind.length > 0){

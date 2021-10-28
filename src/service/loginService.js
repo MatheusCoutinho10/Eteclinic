@@ -2,15 +2,15 @@
 import database from '../repository/connectionDB.js';
 
 //Criando a função login
-async function login(userEmail, password){
+async function login(emailUser, passwordUser){
 	//Fazendo a conexão com o banco
 	const conn = await database.connect();
 	
 	//Ação que será executada no banco
-	const sql = 'SELECT * FROM tbl_usuarios WHERE email = ? AND senha = ? AND usuario_deletado = 0';
+	const sql = 'SELECT * FROM tbl_usuarios WHERE email = ? AND senha = sha2(?, 256) AND usuario_deletado = 0';
 
 	//Criando um array para ordenar de forma correta
-	const dataLogin = [userEmail, password];
+	const dataLogin = [emailUser, passwordUser];
 
 	//[rows] - Pega só as informações do resultado de linhas do Array
 	const [rows] = await conn.query(sql, dataLogin);
