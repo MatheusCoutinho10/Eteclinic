@@ -2,7 +2,7 @@
 import database from '../repository/connectionDB.js';
 
 //Função para inserção de clientes
-async function insertClient(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient){
+async function insertClient({cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient}){
 	//Instanciando a função
 	const conn = await database.connect();
 

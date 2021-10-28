@@ -2,7 +2,7 @@
 import database from '../repository/connectionDB.js';
 
 //Função para inserção de especialistas
-async function insertSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfission){
+async function insertSpecialist({cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfission}){
 	//Instanciando a função
 	const conn = await database.connect();
 

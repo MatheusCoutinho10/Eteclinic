@@ -12,15 +12,12 @@ const router = express.Router();
 
 //Rotas de Usuário
 router.use('/register', register);
-router.use('/register/update', register);
 
 //Rota de Login
 router.use('/login', login);
 
 //Rotas de Cliente
 router.use('/client', client);
-router.use('/client/update', client);
-router.use('client/delete', client);
 
 //Rotas de Especialista
 router.use('/specialist', specialist);
@@ -28,6 +25,7 @@ router.use('/specialist', specialist);
 //Rota para Upload de imagens
 router.use('/image', image);
 
+//Rota para páginas inexistentes
 router.use('/*', (req, res) => {
    res.status(404).send({message: 'Caminho não encontrado!'});
 });
