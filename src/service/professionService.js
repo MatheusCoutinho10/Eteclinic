@@ -34,5 +34,20 @@ async function updateProfession(nameProfession, idProfession){
 	conn.end();
 }
 
+//Função para exclusão de profissões
+async function deleteProfession(idProfession){
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'UPDATE tbl_profissoes SET profissao_deletada = 1 WHERE id_profissao = ?;';
+
+	//Executando a query(concatenando)
+	conn.query(sql, idProfession);
+
+	//Encerrando a conexão
+	conn.end();
+}
+
 //Exportando com chaves por se tratar de uma função direta
-export default {insertProfession, updateProfession};
+export default {insertProfession, updateProfession, deleteProfession};

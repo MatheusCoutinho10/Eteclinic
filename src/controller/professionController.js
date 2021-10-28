@@ -44,7 +44,7 @@ router.put('/update', [
    if(!errors.isEmpty()){
      return res.status(400).send({errors: errors.array()});
    }
-   
+
    //Para atualizar informe o nome da profissão e o id
    const {nameProfession, idProfession} = req.body;
  
@@ -55,6 +55,19 @@ router.put('/update', [
     } catch(err) {
       res.status(500).send({message: `Houve um erro ao atualizar a profissão! ${err}`})
     }
+ });
+
+//Deletando Profissões
+router.delete('/delete/:idProfession', async (req, res) => {
+   const {idProfession} = req.params;
+ 
+   //Pega no arquivo DB a função deleteProfession e passa o que vem do FrontEnd para ela
+   try{
+     await db.deleteProfession(idProfession);  
+     res.status(201).send({message: 'Profissão deletada com sucesso!'});
+   }catch(err) {
+     res.status(500).send({message: `Houve um erro ao deletar a profissão! ${err}`})
+   }
  });
 
 //Exportando o router
