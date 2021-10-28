@@ -34,26 +34,26 @@ router.post('/', async (req, res) => {
 //Reset de Senha
 router.post('/reset', async (req, res) => {
 	//Criando a variável que recebe as informações do front
-	const {userEmail} = req.body;
+	const {emailUser} = req.body;
 	const newPassword = generatedPassword();
 
 	try{
 		//Checando o email
-		const emailUserDB = await db2.checkEmail(userEmail);
+		const emailUserDB = await db2.checkEmail(emailUser);
 
 		//Verificando se o email existe
 		if(emailUserDB.length <= 0){
-		  return res.status(400).send({message: 'Email não cadastrado no sistema!'});
+		  return res.status(400).send({message: 'E-mail não cadastrado no sistema!'});
 		}
 		
 		//Mandando os dados para a função
-		await db.changePassword(newPassword, userEmail);
+		await db.changePassword(newPassword, emailUser);
 
 		//Chamando a função de reset de senha
-		sendEmail(userEmail, 'Matheus Coutinho', newPassword);
+		sendEmail(emailUser, 'Matheus Coutinho', newPassword);
 
 		//Enviando a resposta
-		res.status(200).send({message: 'Senha alterada com sucesso, enviada no seu e-mail'});
+		res.status(200).send({message: 'Senha alterada com sucesso, enviada no seu e-mail!'});
 	}catch(err){
 		res.status(500).send({message: 'Internal Server Error!'});
 	}

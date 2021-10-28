@@ -23,15 +23,15 @@ async function login(emailUser, passwordUser){
 }
 
 //Criando a função de reset de senha
-async function changePassword(newPassword, userEmail){
+async function changePassword(newPassword, emailUser){
 	//Fazendo a conexão com o banco
 	const conn = await database.connect();
 
 	//Ação que será executada no banco
-	const sql = 'UPDATE tbl_usuarios SET senha = ? WHERE email = ? AND usuario_deletado = 0';
+	const sql = 'UPDATE tbl_usuarios SET senha = sha2(?, 256) WHERE email = ? AND usuario_deletado = 0';
 
 	//Criando um array para ordenar de forma correta
-	const dataNewPassword = [newPassword, userEmail];
+	const dataNewPassword = [newPassword, emailUser];
 
 	//Executando a query
 	await conn.query(sql, dataNewPassword);
