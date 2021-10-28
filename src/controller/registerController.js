@@ -79,5 +79,18 @@ router.put('/update', [
    }
 });
 
+//Deletando Usuários
+router.delete('/delete/:idUser', async (req, res) => {
+  const {idUser} = req.params;
+
+  //Pega no arquivo DB a função deleteUser e passa o que vem do FrontEnd para ela
+  try {
+    await db.deleteUser(idUser);
+    res.status(201).send({message: 'Usuário deletado com sucesso!'});
+  } catch(err) {
+    res.status(500).send({message: `Houve um erro ao deletar o usuário! ${err}`})
+  }
+});
+
 //Exportando o router
 export default router;

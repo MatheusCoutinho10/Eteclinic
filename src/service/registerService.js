@@ -55,5 +55,20 @@ async function checkEmail(emailUser){
 	return rows;
 }
 
+//Função para exclusão de clientes
+async function deleteUser(idUser){
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'UPDATE tbl_usuarios SET usuario_deletado = 1 WHERE id_login = ?;';
+
+	//Executando a query(concatenando)
+	conn.query(sql, idUser);
+
+	//Encerrando a conexão
+	conn.end();
+}
+
 //Exportando com chaves por se tratar de uma função direta
-export default {insertUser, updateUser, checkEmail};
+export default {insertUser, updateUser, checkEmail, deleteUser};
