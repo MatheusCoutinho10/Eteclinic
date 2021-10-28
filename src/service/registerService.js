@@ -2,7 +2,7 @@
 import database from '../repository/connectionDB.js';
 
 //Função para inserção de usuários
-async function insertUser(email, password, userName){
+async function insertUser(emailUser, passwordUser, nameUser){
 	//Instanciando a função
 	const conn = await database.connect();
 
@@ -10,7 +10,7 @@ async function insertUser(email, password, userName){
 	const sql = 'INSERT INTO tbl_usuarios(email, senha, usuario) VALUES(?,?,?)';
 	
 	//Array com os parâmetros para serem inseridos na ordem correta
-	const newUserData = [email, password, userName];
+	const newUserData = [emailUser, passwordUser, nameUser];
 
 	//Executando a query(concatenando)
 	conn.query(sql, newUserData);

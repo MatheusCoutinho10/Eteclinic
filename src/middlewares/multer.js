@@ -3,7 +3,6 @@
 import multer from 'multer';
 
 //storage: caminho do arquivo
-//diskStorage: 
 //destination: função de configuração (dadosDaRequisição, dadosDoArquivo, funçãoCallBack)
 //filename: para não sobrescrever com mesmo nome
 //limits: tamanho permitido do arquivo
@@ -20,4 +19,5 @@ const multerConfig = {
    })
 }
 
+//Exportando
 export default multerConfig;

@@ -1,3 +1,4 @@
+//Fazendo as importações necessárias
 import {smtp} from './sendEmailConfig.js';
 
 //Arquivo para as configurações de envio de e-mail
@@ -15,4 +16,5 @@ const config = {
 	}
 };
 
+//Exportando
 export {config};

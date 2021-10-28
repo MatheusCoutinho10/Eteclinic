@@ -1,6 +1,6 @@
-//Importando o express
+//Fazendo as importações
 import express from 'express';
-import register from './controller/register/registerController.js';
+import register from './controller/registerController.js';
 import login from './controller/loginController.js';
 import client from './controller/clientController.js';
 import specialist from './controller/specialistController.js';
