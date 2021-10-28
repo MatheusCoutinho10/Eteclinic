@@ -37,7 +37,7 @@ async function updateClient(cepAddress, roadAddress, numberAddress, districtAddr
 	conn.end();
 }
 
-//Função para exclusão de usuários
+//Função para exclusão de clientes
 async function deleteClient(id){
 	//Instanciando a função
 	const conn = await database.connect();

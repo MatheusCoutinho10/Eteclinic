@@ -77,5 +77,18 @@ router.put('/update', async (req, res) => {
    }
 });
 
+//Deletando Especialistas
+router.delete('/delete/:id', async (req, res) => {
+  const {id} = req.params;
+
+  //Pega no arquivo DB a função deleteSpecialist e passando o que vem do FrontEnd para ela
+  try {
+    await db.deleteSpecialist(id);  
+    res.status(201).send({message: 'Especialista deletado com sucesso!'});
+  } catch(err) {
+    res.status(500).send({message: `Houve um erro ao deletar o especialista! ${err}`})
+  }
+});
+
 //Exportando o router
 export default router;
