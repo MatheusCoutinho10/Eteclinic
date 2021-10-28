@@ -7,7 +7,7 @@ async function insertUser(emailUser, passwordUser, nameUser){
 	const conn = await database.connect();
 
 	//Ação a ser realizada no banco
-	const sql = 'INSERT INTO tbl_usuarios(email, senha, usuario) VALUES(?,?,?)';
+	const sql = 'INSERT INTO tbl_usuarios(email, senha, usuario) VALUES(?, sha2(?, 256), ?)';
 	
 	//Array com os parâmetros para serem inseridos na ordem correta
 	const newUserData = [emailUser, passwordUser, nameUser];
@@ -20,15 +20,15 @@ async function insertUser(emailUser, passwordUser, nameUser){
 }
 
 //Função para atualização de usuários
-async function updateUser(email, password, userName, id){
+async function updateUser(emailUser, passwordUser, nameUser, idUser){
 	//Instanciando a função
 	const conn = await database.connect();
 
 	//Ação a ser realizada no banco
-	const sql = 'UPDATE tbl_usuarios SET email = ?, senha = ?, usuario = ? WHERE id_login = ?;';
+	const sql = 'UPDATE tbl_usuarios SET email = ?, senha = sha2(?, 256), usuario = ? WHERE id_login = ?;';
 	
 	//Array com os parâmetros para serem inseridos na ordem correta
-	const updateUserData = [email, password, userName, id];
+	const updateUserData = [emailUser, passwordUser, nameUser, idUser];
 
 	//Executando a query(concatenando)
 	conn.query(sql, updateUserData);
@@ -38,7 +38,7 @@ async function updateUser(email, password, userName, id){
 }
 
 //Função para não cadastrar dois emails iguais
-async function checkEmail(userEmail){
+async function checkEmail(emailUser){
 	//Instanciando a função
 	const conn = await database.connect();
 
@@ -46,7 +46,7 @@ async function checkEmail(userEmail){
 	const sql = 'SELECT * FROM tbl_usuarios WHERE email=?';
 
 	//Retorna a posição rows do array retornado, onde está contido os dados encontrados no select
-	const [rows] = await conn.query(sql, userEmail);
+	const [rows] = await conn.query(sql, emailUser);
 
 	//Finalizando a conexão
 	conn.end();

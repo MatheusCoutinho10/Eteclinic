@@ -49,15 +49,15 @@ router.post('/', [
 
 //Rota para atualizar usuário
 router.put('/update', [
-  body('email').isEmail().withMessage('Informe um E-mail válido!'),
-  body('email').notEmpty().withMessage('O campo E-mail é obrigatório!'),
-  body('password').isLength({min: 8, max: 15}).withMessage('Informe uma senha entre 8 e 15 caracteres!'),
-  body('password').notEmpty().withMessage('O campo Senha é obrigatório!'),
-  body('userName').notEmpty().withMessage('O campo Usuário é obrigatório!'),
-  body('userName').isLength({max: 45}).withMessage('O Usuário deve conter no máximo 45 caracteres!'),
-  body('id').notEmpty().withMessage('O campo ID é obrigatório!'),
-  body('id').isNumeric().withMessage('O campo ID deve ser numérico!'),
-  body('id').isLength({max: 11}).withMessage('O campo ID deve conter no máximo 11 caracteres!'),
+  body('emailUser').isEmail().withMessage('Informe um E-mail válido!'),
+  body('emailUser').notEmpty().withMessage('O campo E-mail é obrigatório!'),
+  body('passwordUser').isLength({min: 8, max: 15}).withMessage('Informe uma senha entre 8 e 15 caracteres!'),
+  body('passwordUser').notEmpty().withMessage('O campo Senha é obrigatório!'),
+  body('nameUser').notEmpty().withMessage('O campo Usuário é obrigatório!'),
+  body('nameUser').isLength({max: 45}).withMessage('O Usuário deve conter no máximo 45 caracteres!'),
+  body('idUser').notEmpty().withMessage('O campo ID é obrigatório!'),
+  body('idUser').isNumeric().withMessage('O campo ID deve ser numérico!'),
+  body('idUser').isLength({max: 11}).withMessage('O campo ID deve conter no máximo 11 caracteres!'),
 ], async (req, res) => {
   //Variável para mandar para a validação a requisição
   const errors = validationResult(req);
@@ -68,13 +68,13 @@ router.put('/update', [
   }
 
   //Para atualizar informe e-mail, senha, nome de usuário e id
-  const {email, password, userName, id} = req.body;
+  const {emailUser, passwordUser, nameUser, idUser} = req.body;
 
   //Pega no arquivo DB a função updateUser e passando o que vem do FrontEnd para ela
-  try {
-     await db.updateUser(email, password, userName, id);  
+  try{
+     await db.updateUser(emailUser, passwordUser, nameUser, idUser);  
      res.status(201).send({message: 'Usuário atualizado com sucesso!'});
-   } catch(err) {
+   }catch(err) {
      res.status(500).send({message: `Houve um erro ao atualizar o usuário! ${err}`})
    }
 });
