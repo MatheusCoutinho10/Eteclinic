@@ -16,5 +16,23 @@ async function insertProfession({nameProfession}){
 	conn.end();
 }
 
+//Função para atualização de profissões
+async function updateProfession(nameProfession, idProfession){
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'UPDATE tbl_profissoes SET nome_profissao = ? WHERE id_profissao = ?;';
+	
+	//Array com os parâmetros para serem atualizados na ordem correta
+	const updateProfessionData = [nameProfession, idProfession];
+
+	//Executando a query(concatenando)
+	conn.query(sql, updateProfessionData);
+
+	//Encerrando a conexão
+	conn.end();
+}
+
 //Exportando com chaves por se tratar de uma função direta
-export default {insertProfession};
+export default {insertProfession, updateProfession};

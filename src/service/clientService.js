@@ -27,7 +27,7 @@ async function updateClient(cepAddress, roadAddress, numberAddress, districtAddr
 	//Ação a ser realizada no banco
 	const sql = 'CALL sp_atualiza_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 	
-	//Array com os parâmetros para serem inseridos na ordem correta
+	//Array com os parâmetros para serem atualizados na ordem correta
 	const updateClientData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, address, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, client];
 
 	//Executando a query(concatenando)

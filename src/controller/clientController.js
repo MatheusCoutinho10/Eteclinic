@@ -86,7 +86,7 @@ router.put('/update', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
   const {id} = req.params;
 
-  //Pega no arquivo DB a função deleteClient e passando o que vem do FrontEnd para ela
+  //Pega no arquivo DB a função deleteClient e passa o que vem do FrontEnd para ela
   try {
     await db.deleteClient(id);  
     res.status(201).send({message: 'Usuario deletado com sucesso!'});

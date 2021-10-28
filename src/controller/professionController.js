@@ -28,5 +28,34 @@ router.post('/', [
    }
 });
 
+//Atualizando Profissões
+router.put('/update', [
+   body('nameProfession').notEmpty().withMessage('O campo Profissão é obrigatório!'),
+   body('nameProfession').isLength({max: 45}).withMessage('O campo Profissão deve conter no máximo 45 caracteres!'),
+   body('idProfession').notEmpty().withMessage('O campo ID é obrigatório!'),
+   body('idProfession').isNumeric().withMessage('O campo ID deve ser numérico!'),
+   body('idProfession').isLength({max: 11}).withMessage('O campo ID deve conter no máximo 11 caracteres!')
+ ], async (req, res) => {
+
+   //Variável para mandar para a validação a requisição
+   const errors = validationResult(req);
+
+   //Se errors não está vazia
+   if(!errors.isEmpty()){
+     return res.status(400).send({errors: errors.array()});
+   }
+   
+   //Para atualizar informe o nome da profissão e o id
+   const {nameProfession, idProfession} = req.body;
+ 
+   //Pega no arquivo DB a função updateProfession e passa o que vem do FrontEnd para ela
+   try {
+      await db.updateProfession(nameProfession, idProfession);  
+      res.status(201).send({message: 'Profissão atualizada com sucesso!'});
+    } catch(err) {
+      res.status(500).send({message: `Houve um erro ao atualizar a profissão! ${err}`})
+    }
+ });
+
 //Exportando o router
 export default router;
