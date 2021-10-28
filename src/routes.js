@@ -4,6 +4,7 @@ import register from './controller/register/registerController.js';
 import login from './controller/loginController.js';
 import client from './controller/clientController.js';
 import specialist from './controller/specialistController.js';
+import profession from './controller/professionController.js';
 import image from './controller/imageController.js';
 import { verifyJWT } from './middlewares/jwt.js';
 
@@ -21,6 +22,9 @@ router.use('/client', client);
 
 //Rotas de Especialista
 router.use('/specialist', specialist);
+
+//Rotas de Profissão
+router.use('/profession', profession);
 
 //Rota para Upload de imagens
 router.use('/image', image);
