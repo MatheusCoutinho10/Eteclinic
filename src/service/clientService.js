@@ -2,7 +2,7 @@
 import database from '../repository/connectionDB.js';
 
 //Função para inserção de clientes
-async function insertClient({cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient}){
+async function insertClient({cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, cpfClient, nameClient, telephoneClient, cellPhoneClient, emailClient, bloodTypeClient}){
 	//Instanciando a função
 	const conn = await database.connect();
 
@@ -10,7 +10,7 @@ async function insertClient({cepAddress, roadAddress, numberAddress, districtAdd
 	const sql = 'CALL sp_registra_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 	
 	//Array com os parâmetros para serem inseridos na ordem correta
-	const newClientData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient];
+	const newClientData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, cpfClient, nameClient, telephoneClient, cellPhoneClient, emailClient, bloodTypeClient];
 
 	//Executando a query(concatenando)
 	conn.query(sql, newClientData);

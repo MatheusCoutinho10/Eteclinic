@@ -1,4 +1,4 @@
-//Importando o Express
+//Fazendo as importações necessárias
 import express from 'express';
 import db from '../service/clientService.js';
 import { body, validationResult } from 'express-validator'; //Usado para as validações
@@ -26,7 +26,7 @@ router.post('/', [
     const stateAllow = ['RO', 'AC', 'AM', 'RR', 'PA', 'AP', 'TO', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA', 'MG', 'ES', 'RJ', 'SP', 'PR', 'SC', 'RS', 'MS', 'MT', 'GO', 'DF']
 
     if(!stateAllow.includes(stateAddress)){
-      return Promise.reject('UF informado é inválido!')
+      return Promise.reject('A UF informada é inválida!')
     }
     return true;
   }),
@@ -43,18 +43,26 @@ router.post('/', [
   body('telephoneClient').notEmpty().withMessage('O campo Telefone é obrigatório!'),
   body('telephoneClient').isNumeric().withMessage('O campo Telefone deve ser numérico!'),
   body('telephoneClient').isLength({max: 45}).withMessage('O campo Telefone deve conter no máximo 45 caracteres!'),
-  body('cellClient').notEmpty().withMessage('O campo Celular é obrigatório!'),
-  body('cellClient').isNumeric().withMessage('O campo Celular deve ser numérico!'),
-  body('cellClient').isLength({max: 45}).withMessage('O campo Celular deve conter no máximo 45 caracteres!'),
+  body('cellPhoneClient').notEmpty().withMessage('O campo Celular é obrigatório!'),
+  body('cellPhoneClient').isNumeric().withMessage('O campo Celular deve ser numérico!'),
+  body('cellPhoneClient').isLength({max: 45}).withMessage('O campo Celular deve conter no máximo 45 caracteres!'),
   body('emailClient').isEmail().withMessage('Informe um e-mail valido!'),
   body('emailClient').notEmpty().withMessage('O campo E-mail é obrigatório!'),
   body('bloodTypeClient').notEmpty().withMessage('O campo Tipo Sanguíneo é obrigatório!'),
   body('bloodTypeClient').isLength({max: 3}).withMessage('O campo Tipo Sanguíneo deve conter no máximo 3 caracteres!'),
+  body('bloodTypeClient').custom((bloodTypeClient) =>{
+    const bloodTypeAllow = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
+
+    if(!bloodTypeAllow.includes(bloodTypeClient)){
+      return Promise.reject('O Tipo Sanguíneo informado é inválido!')
+    }
+    return true;
+  })
 ], async (req, res) => {
-   //Variável para mandar para a validação a requisição
+   //Variável para mandar para a validar a requisição
    const errors = validationResult(req);
 
-   //Se errors não está vazia
+   //Se errors não está vazia (com erros)
    if(!errors.isEmpty()){
      return res.status(400).send({errors: errors.array()});
    }
@@ -64,7 +72,7 @@ router.post('/', [
       await db.insertClient(req.body);  
       res.status(201).send({message: 'Cliente cadastrado com sucesso!'});
     } catch(err) {
-      res.status(500).send({message: `Houve um erro ao cadastrar. ${err}`})
+      res.status(500).send({message: `Houve um erro ao cadastrar o cliente! ${err}`})
     }
 });
 
