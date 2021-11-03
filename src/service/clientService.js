@@ -19,8 +19,8 @@ async function insertClient({cepAddress, roadAddress, numberAddress, districtAdd
 	conn.end();
 }
 
-//Função para atualização de usuários
-async function updateClient(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, address, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, client){
+//Função para atualização de Clientes
+async function updateClient(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, idAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, idClient){
 	//Instanciando a função
 	const conn = await database.connect();
 
@@ -28,7 +28,7 @@ async function updateClient(cepAddress, roadAddress, numberAddress, districtAddr
 	const sql = 'CALL sp_atualiza_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 	
 	//Array com os parâmetros para serem atualizados na ordem correta
-	const updateClientData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, address, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, client];
+	const updateClientData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, idAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, idClient];
 
 	//Executando a query(concatenando)
 	conn.query(sql, updateClientData);
