@@ -35,7 +35,7 @@ router.post('/', [
     const checkCPF = cpf.isValid(cpfClient);
 
     //Verificando se o CPF é verdadeiro ou falso
-    if(!checkCPF) return Promise.reject('CPF informado é inválido!');
+    if(!checkCPF) return Promise.reject('O CPF informado é inválido!');
     return true;
   }),
   body('nameClient').notEmpty().withMessage('O campo Nome é obrigatório!'),
@@ -46,7 +46,7 @@ router.post('/', [
   body('cellPhoneClient').notEmpty().withMessage('O campo Celular é obrigatório!'),
   body('cellPhoneClient').isNumeric().withMessage('O campo Celular deve ser numérico!'),
   body('cellPhoneClient').isLength({max: 45}).withMessage('O campo Celular deve conter no máximo 45 caracteres!'),
-  body('emailClient').isEmail().withMessage('Informe um e-mail válido!'),
+  body('emailClient').isEmail().withMessage('Informe um E-mail válido!'),
   body('emailClient').notEmpty().withMessage('O campo E-mail é obrigatório!'),
   body('bloodTypeClient').notEmpty().withMessage('O campo Tipo Sanguíneo é obrigatório!'),
   body('bloodTypeClient').isLength({max: 3}).withMessage('O campo Tipo Sanguíneo deve conter no máximo 3 caracteres!'),
@@ -108,7 +108,7 @@ router.put('/update', [
     const checkCPF = cpf.isValid(cpfClient);
 
     //Verificando se o CPF é verdadeiro ou falso
-    if(!checkCPF) return Promise.reject('CPF informado é inválido!');
+    if(!checkCPF) return Promise.reject('O CPF informado é inválido!');
     return true;
   }),
   body('nameClient').notEmpty().withMessage('O campo Nome é obrigatório!'),
@@ -119,7 +119,7 @@ router.put('/update', [
   body('cellPhoneClient').notEmpty().withMessage('O campo Celular é obrigatório!'),
   body('cellPhoneClient').isNumeric().withMessage('O campo Celular deve ser numérico!'),
   body('cellPhoneClient').isLength({max: 45}).withMessage('O campo Celular deve conter no máximo 45 caracteres!'),
-  body('emailClient').isEmail().withMessage('Informe um e-mail válido!'),
+  body('emailClient').isEmail().withMessage('Informe um E-mail válido!'),
   body('emailClient').notEmpty().withMessage('O campo E-mail é obrigatório!'),
   body('bloodTypeClient').notEmpty().withMessage('O campo Tipo Sanguíneo é obrigatório!'),
   body('bloodTypeClient').isLength({max: 3}).withMessage('O campo Tipo Sanguíneo deve conter no máximo 3 caracteres!'),
@@ -159,16 +159,16 @@ router.put('/update', [
     }
  });
 
-//Deletando Clientes
-router.delete('/delete/:id', async (req, res) => {
-  const {id} = req.params;
+//Rota para deletar clientes
+router.delete('/delete/:idClient', async (req, res) => {
+  const {idClient} = req.params;
 
   //Pega no arquivo DB a função deleteClient e passa o que vem do FrontEnd para ela
   try {
-    await db.deleteClient(id);  
-    res.status(201).send({message: 'Usuario deletado com sucesso!'});
+    await db.deleteClient(idClient);  
+    res.status(201).send({message: 'Cliente deletado com sucesso!'});
   } catch(err) {
-    res.status(500).send({message: `Houve um erro ao deletar o usuário! ${err}`})
+    res.status(500).send({message: `Houve um erro ao tentar deletar o cliente! ${err}`})
   }
 });
 

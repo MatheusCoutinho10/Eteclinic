@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('/', [
   body('emailUser').isEmail().withMessage('Informe um E-mail válido!'),
   body('emailUser').notEmpty().withMessage('O campo E-mail é obrigatório!'),
-  body('passwordUser').isLength({min: 8, max: 15}).withMessage('Informe uma senha entre 8 e 15 caracteres!'),
+  body('passwordUser').isLength({min: 8, max: 15}).withMessage('Informe uma Senha entre 8 e 15 caracteres!'),
   body('passwordUser').notEmpty().withMessage('O campo Senha é obrigatório!'),
   body('nameUser').notEmpty().withMessage('O campo Usuário é obrigatório!'),
   body('nameUser').isLength({max: 45}).withMessage('O Usuário deve conter no máximo 45 caracteres!')
@@ -51,10 +51,10 @@ router.post('/', [
 router.put('/update', [
   body('emailUser').isEmail().withMessage('Informe um E-mail válido!'),
   body('emailUser').notEmpty().withMessage('O campo E-mail é obrigatório!'),
-  body('passwordUser').isLength({min: 8, max: 15}).withMessage('Informe uma senha entre 8 e 15 caracteres!'),
+  body('passwordUser').isLength({min: 8, max: 15}).withMessage('Informe uma Senha entre 8 e 15 caracteres!'),
   body('passwordUser').notEmpty().withMessage('O campo Senha é obrigatório!'),
   body('nameUser').notEmpty().withMessage('O campo Usuário é obrigatório!'),
-  body('nameUser').isLength({max: 45}).withMessage('O Usuário deve conter no máximo 45 caracteres!'),
+  body('nameUser').isLength({max: 45}).withMessage('O campo Usuário deve conter no máximo 45 caracteres!'),
   body('idUser').notEmpty().withMessage('O campo ID é obrigatório!'),
   body('idUser').isNumeric().withMessage('O campo ID deve ser numérico!'),
   body('idUser').isLength({max: 11}).withMessage('O campo ID deve conter no máximo 11 caracteres!'),
