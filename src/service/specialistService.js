@@ -2,15 +2,15 @@
 import database from '../repository/connectionDB.js';
 
 //Função para inserção de especialistas
-async function insertSpecialist({cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfission}){
+async function insertSpecialist({cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfession}){
 	//Instanciando a função
 	const conn = await database.connect();
 
 	//Ação a ser realizada no banco
-	const sql = 'CALL sp_registra_especialista(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+	const sql = 'CALL sp_registra_especialista(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
 	
 	//Array com os parâmetros para serem inseridos na ordem correta
-	const newSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfission];
+	const newSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idProfession];
 
 	//Executando a query(concatenando)
 	await conn.query(sql, newSpecialistData);
