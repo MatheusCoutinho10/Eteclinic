@@ -20,7 +20,7 @@ async function insertSpecialist({cepAddress, roadAddress, numberAddress, distric
 }
 
 //Função para atualização de especialistas
-async function updateSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfission, idSpecialist){
+async function updateSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession, idSpecialist){
 	//Instanciando a função
 	const conn = await database.connect();
 
@@ -28,7 +28,7 @@ async function updateSpecialist(cepAddress, roadAddress, numberAddress, district
 	const sql = 'CALL sp_atualiza_especialista(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
 	
 	//Array com os parâmetros para serem inseridos na ordem correta
-	const updateSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfission, idSpecialist];
+	const updateSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession, idSpecialist];
 
 	//Executando a query(concatenando)
 	conn.query(sql, updateSpecialistData);
