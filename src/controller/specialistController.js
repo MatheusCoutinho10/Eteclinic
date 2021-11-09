@@ -132,16 +132,16 @@ router.put('/update', [
    }
 });
 
-//Deletando Especialistas
-router.delete('/delete/:id', async (req, res) => {
-  const {id} = req.params;
+//Rota para deletar especialistas
+router.delete('/delete/:idSpecialist', async (req, res) => {
+  const {idSpecialist} = req.params;
 
   //Pega no arquivo DB a função deleteSpecialist e passando o que vem do FrontEnd para ela
   try {
-    await db.deleteSpecialist(id);  
+    await db.deleteSpecialist(idSpecialist);  
     res.status(201).send({message: 'Especialista deletado com sucesso!'});
   } catch(err) {
-    res.status(500).send({message: `Houve um erro ao deletar o especialista! ${err}`})
+    res.status(500).send({message: `Houve um erro ao tentar deletar o especialista! ${err}`})
   }
 });
 

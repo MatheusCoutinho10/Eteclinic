@@ -38,18 +38,15 @@ async function updateSpecialist(cepAddress, roadAddress, numberAddress, district
 }
 
 //Função para exclusão de especialistas
-async function deleteSpecialist(id){
+async function deleteSpecialist(idSpecialist){
 	//Instanciando a função
 	const conn = await database.connect();
 
 	//Ação a ser realizada no banco
 	const sql = 'UPDATE tbl_especialistas SET especialista_deletado = 1 WHERE id_especialista = ?;';
-	
-	//Array com os parâmetros para serem inseridos na ordem correta
-	const deleteSpecialistData = [id];
 
 	//Executando a query(concatenando)
-	conn.query(sql, deleteSpecialistData);
+	conn.query(sql, idSpecialist);
 
 	//Encerrando a conexão
 	conn.end();
