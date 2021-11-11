@@ -73,7 +73,7 @@ router.post('/', [
       await db.insertClient(req.body);  
       res.status(201).send({message: 'Cliente cadastrado com sucesso!'});
     } catch(err) {
-      res.status(500).send({message: `Houve um erro ao cadastrar o cliente! ${err}`})
+      res.status(500).send({message: `Houve um erro ao tentar cadastrar o cliente! ${err}`})
     }
 });
 
