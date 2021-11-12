@@ -78,7 +78,7 @@ router.post('/', [
 });
 
 //Rota para atualizar Clientes
-router.put('/update', [
+router.put('/update/:idClient', [
   body('cepAddress').isNumeric().withMessage('O campo CEP deve ser numérico!'),
   body('cepAddress').isLength({min: 8, max: 8}).withMessage('O campo CEP deve conter 8 caracteres!'),
   body('cepAddress').notEmpty().withMessage('O campo CEP é obrigatório!'),
@@ -131,12 +131,9 @@ router.put('/update', [
     }
     return true;
   }),
-  body('addressClient').notEmpty().withMessage('O campo Endereço é obrigatório!'),
-  body('addressClient').isNumeric().withMessage('O campo Endereço deve ser numérico!'),
-  body('addressClient').isLength({max: 11}).withMessage('O campo Endereço deve conter no máximo 11 caracteres!'),
-  body('idClient').notEmpty().withMessage('O campo Cliente é obrigatório!'),
-  body('idClient').isNumeric().withMessage('O campo Cliente deve ser numérico!'),
-  body('idClient').isLength({max: 11}).withMessage('O campo Cliente deve conter no máximo 11 caracteres!'),
+  body('idAddress').notEmpty().withMessage('O campo Endereço é obrigatório!'),
+  body('idAddress').isNumeric().withMessage('O campo Endereço deve ser numérico!'),
+  body('idAddress').isLength({max: 11}).withMessage('O campo Endereço deve conter no máximo 11 caracteres!')
 ], async (req, res) => {
  
    //Variável para mandar para a validar a requisição
@@ -147,13 +144,19 @@ router.put('/update', [
      return res.status(400).send({errors: errors.array()});
    }
 
-   //Para atualizar informe os dados
-   const {cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, idAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, idClient} = req.body;
+   //Pegando o id passado na url
+   const {idClient} = req.params;
 
-   //Pega no arquivo DB a função updateClient e passando o que vem do FrontEnd para ela
-   try {
-      await db.updateClient(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, idAddress, cpfClient, nameClient, telephoneClient, cellClient, emailClient, bloodTypeClient, addressClient, idClient);  
-      res.status(201).send({message: 'Cliente atualizado com sucesso!'});
+   try{
+     const user = await db.validateClient(idClient);
+
+     if(user.length <= 0) {
+       return res.status(404).send({message: 'Cliente não encontrado!'});
+     }
+
+      //Pega no arquivo DB a função updateClient e passando o que vem do FrontEnd para ela
+      await db.updateClient(req.body, idClient);  
+      res.status(200).send({message: 'Cliente atualizado com sucesso!'});
     } catch(err) {
       res.status(500).send({message: `Houve um erro ao atualizar o cliente! ${err}`})
     }
