@@ -19,8 +19,26 @@ async function insertUser(emailUser, passwordUser, nameUser){
 	conn.end();
 }
 
+//Função para validar os Usuários
+async function validateUser(idUser) {
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'SELECT * FROM tbl_usuarios WHERE usuario_deletado = 0 AND id_login = ?;';
+	
+	//Guardando a execução da query em rows
+	const [rows] = await conn.query(sql, idUser);
+
+	//Encerrando a conexão
+	conn.end();
+
+	//Retornando rows para quem chamar essa função
+	return rows;
+}
+
 //Função para atualização de usuários
-async function updateUser(emailUser, passwordUser, nameUser, idUser){
+async function updateUser({emailUser, passwordUser, nameUser}, idUser){
 	//Instanciando a função
 	const conn = await database.connect();
 
@@ -71,4 +89,4 @@ async function deleteUser(idUser){
 }
 
 //Exportando com chaves por se tratar de uma função direta
-export default {insertUser, updateUser, checkEmail, deleteUser};
+export default {insertUser, validateUser,updateUser, checkEmail, deleteUser};

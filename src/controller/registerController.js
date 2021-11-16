@@ -48,16 +48,13 @@ router.post('/', [
 });
 
 //Rota para atualizar usuário
-router.put('/update', [
+router.put('/update/:idUser', [
   body('emailUser').isEmail().withMessage('Informe um E-mail válido!'),
   body('emailUser').notEmpty().withMessage('O campo E-mail é obrigatório!'),
   body('passwordUser').isLength({min: 8, max: 15}).withMessage('Informe uma Senha entre 8 e 15 caracteres!'),
   body('passwordUser').notEmpty().withMessage('O campo Senha é obrigatório!'),
   body('nameUser').notEmpty().withMessage('O campo Usuário é obrigatório!'),
-  body('nameUser').isLength({max: 45}).withMessage('O campo Usuário deve conter no máximo 45 caracteres!'),
-  body('idUser').notEmpty().withMessage('O campo ID é obrigatório!'),
-  body('idUser').isNumeric().withMessage('O campo ID deve ser numérico!'),
-  body('idUser').isLength({max: 11}).withMessage('O campo ID deve conter no máximo 11 caracteres!'),
+  body('nameUser').isLength({max: 45}).withMessage('O campo Usuário deve conter no máximo 45 caracteres!')
 ], async (req, res) => {
   //Variável para mandar para a validação a requisição
   const errors = validationResult(req);
@@ -67,12 +64,19 @@ router.put('/update', [
     return res.status(400).send({errors: errors.array()});
   }
 
-  //Para atualizar informe e-mail, senha, nome de usuário e id
-  const {emailUser, passwordUser, nameUser, idUser} = req.body;
+  //Pegando o id do usuário
+  const {idUser} = req.params;
 
   //Pega no arquivo DB a função updateUser e passando o que vem do FrontEnd para ela
   try{
-     await db.updateUser(emailUser, passwordUser, nameUser, idUser);  
+     const user = await db.validateUser(idUser);
+
+     if(user.length <= 0) {
+        return res.status(404).send({message: 'Cliente não encontrado!'});
+     }
+
+     //Pega no arquivo DB a função updateUser e passando o que vem do FrontEnd para ela
+     await db.updateUser(req.body, idUser);  
      res.status(201).send({message: 'Usuário atualizado com sucesso!'});
    }catch(err) {
      res.status(500).send({message: `Houve um erro ao tentar atualizar o usuário! ${err}`})
