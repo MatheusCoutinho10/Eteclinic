@@ -19,16 +19,34 @@ async function insertSpecialist({cepAddress, roadAddress, numberAddress, distric
 	conn.end();
 }
 
-//Função para atualização de especialistas
-async function updateSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession, idSpecialist){
+//Função para validar os Especialistas
+async function validateSpecialist(idSpecialist) {
 	//Instanciando a função
 	const conn = await database.connect();
 
 	//Ação a ser realizada no banco
-	const sql = 'CALL sp_atualiza_especialista(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+	const sql = 'SELECT * FROM tbl_especialistas WHERE especialista_deletado = 0 AND id_especialista = ?;';
+	
+	//Guardando a execução da query em rows
+	const [rows] = await conn.query(sql, idSpecialist);
+
+	//Encerrando a conexão
+	conn.end();
+
+	//Retornando rows para quem chamar essa função
+	return rows;
+}
+
+//Função para atualização de especialistas
+async function updateSpecialist({cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession}, idSpecialist){
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'CALL sp_atualiza_especialista(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
 	
 	//Array com os parâmetros para serem inseridos na ordem correta
-	const updateSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession, idSpecialist];
+	const updateSpecialistData = [cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession, idSpecialist];
 
 	//Executando a query(concatenando)
 	conn.query(sql, updateSpecialistData);
@@ -53,4 +71,4 @@ async function deleteSpecialist(idSpecialist){
 }
 
 //Exportando com chaves por se tratar de uma função direta
-export default {insertSpecialist, updateSpecialist, deleteSpecialist};
+export default {insertSpecialist, validateSpecialist, updateSpecialist, deleteSpecialist};

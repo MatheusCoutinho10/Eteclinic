@@ -64,7 +64,7 @@ router.post('/', [
 });
 
 //Rota para atualizar especialistas
-router.put('/update', [
+router.put('/update/:idSpecialist', [
   body('cepAddress').isNumeric().withMessage('O campo CEP deve ser numérico!'),
   body('cepAddress').isLength({min: 8, max: 8}).withMessage('O campo CEP deve conter 8 caracteres!'),
   body('cepAddress').notEmpty().withMessage('O campo CEP é obrigatório!'),
@@ -86,9 +86,6 @@ router.put('/update', [
     }
     return true;
   }),
-  body('registerAddress').isNumeric().withMessage('O campo Endereço deve ser numérico!'),
-  body('registerAddress').isLength({max: 11}).withMessage('O campo Endereço deve conter no máximo 11 caracteres!'),
-  body('registerAddress').notEmpty().withMessage('O campo Endereço é obrigatório!'),
   body('registerSpecialist').isNumeric().withMessage('O campo Registro deve ser numérico!'),
   body('registerSpecialist').isLength({max: 11}).withMessage('O campo Registro deve conter no máximo 11 caracteres!'),
   body('registerSpecialist').notEmpty().withMessage('O campo Registro é obrigatório!'),
@@ -107,10 +104,7 @@ router.put('/update', [
   body('idAddress').notEmpty().withMessage('O campo Endereço é obrigatório!'),
   body('idProfession').isNumeric().withMessage('O campo Profissão deve ser numérico!'),
   body('idProfession').isLength({max: 11}).withMessage('O campo Profissão deve conter no máximo 11 caracteres!'),
-  body('idProfession').notEmpty().withMessage('O campo Profissão é obrigatório!'),
-  body('idSpecialist').isNumeric().withMessage('O campo Especialista deve ser numérico!'),
-  body('idSpecialist').isLength({max: 11}).withMessage('O campo Especialista deve conter no máximo 11 caracteres!'),
-  body('idSpecialist').notEmpty().withMessage('O campo Especialista é obrigatório!')
+  body('idProfession').notEmpty().withMessage('O campo Profissão é obrigatório!')
 ], async (req, res) => {
   //Variável para mandar para a validação a requisição
   const errors = validationResult(req);
@@ -120,12 +114,18 @@ router.put('/update', [
     return res.status(400).send({errors: errors.array()});
   }
 
-  //Para atualizar informe os dados
-  const {cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession, idSpecialist} = req.body;
+  //Pegando o id passado na url
+  const {idSpecialist} = req.params;
 
-  //Pega no arquivo DB a função updateSpecialist e passando o que vem do FrontEnd para ela
   try {
-     await db.updateSpecialist(cepAddress, roadAddress, numberAddress, districtAddress, cityAddress, stateAddress, registerAddress, registerSpecialist, nameSpecialist, telephoneSpecialist, cellPhoneSpecialist, emailSpecialist, idAddress, idProfession, idSpecialist);  
+     const specialist = await db.validateSpecialist(idSpecialist);
+  
+     if(specialist.length <= 0) {
+       return res.status(404).send({message: 'Especialista não encontrado!'});
+     }
+
+     //Pega no arquivo DB a função updateSpecialist e passando o que vem do FrontEnd para ela
+     await db.updateSpecialist(req.body, idSpecialist);  
      res.status(201).send({message: 'Especialista atualizado com sucesso!'});
    } catch(err) {
      res.status(500).send({message: `Houve um erro ao tentar atualizar o especialista! ${err}`})
