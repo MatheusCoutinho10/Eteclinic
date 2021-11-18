@@ -16,8 +16,26 @@ async function insertProfession({nameProfession}){
 	conn.end();
 }
 
-//Função para atualização de profissões
-async function updateProfession(nameProfession, idProfession){
+//Função para validar as Profissões
+async function validateProfession(idProfession) {
+	//Instanciando a função
+	const conn = await database.connect();
+
+	//Ação a ser realizada no banco
+	const sql = 'SELECT * FROM tbl_profissoes WHERE profissao_deletada = 0 AND id_profissao = ?;';
+	
+	//Guardando a execução da query em rows
+	const [rows] = await conn.query(sql, idProfession);
+
+	//Encerrando a conexão
+	conn.end();
+
+	//Retornando rows para quem chamar essa função
+	return rows;
+}
+
+//Função para atualização de Profissões
+async function updateProfession({nameProfession}, idProfession){
 	//Instanciando a função
 	const conn = await database.connect();
 
@@ -50,4 +68,4 @@ async function deleteProfession(idProfession){
 }
 
 //Exportando com chaves por se tratar de uma função direta
-export default {insertProfession, updateProfession, deleteProfession};
+export default {insertProfession, validateProfession, updateProfession, deleteProfession};
